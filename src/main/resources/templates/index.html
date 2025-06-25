@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Comparison Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-br from-blue-100 to-purple-200 min-h-screen flex items-center justify-center">
+    <div class="bg-white shadow-lg rounded-lg p-8 w-full max-w-md">
+        <h1 class="text-3xl font-extrabold mb-8 text-center text-gray-800">Enter Comparison Details</h1>
+        <form th:action="@{/api/compare}" method="post" class="space-y-6">
+            <div>
+                <label for="userCountry" class="block text-sm font-medium text-gray-700 mb-1">Enter Your Country:</label>
+                <select id="userCountry" name="userCountry" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+                    <option th:each="country : ${countries}" th:value="${country}" th:text="${country}" th:selected="${country == compareRequest?.userCountry}"></option>
+                </select>
+            </div>
+            <div>
+                <label for="userState" class="block text-sm font-medium text-gray-700 mb-1">Enter Your State:</label>
+                <input type="text" id="userState" name="userState" th:value="${compareRequest?.userState}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div>
+                <label for="dishName" class="block text-sm font-medium text-gray-700 mb-1">Enter Dish Name:</label>
+                <input type="text" id="dishName" name="dishName" th:value="${compareRequest?.dishName}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <div>
+                <label for="dishCountry" class="block text-sm font-medium text-gray-700 mb-1">Enter Dish Country:</label>
+                <input type="text" id="dishCountry" name="dishCountry" th:value="${compareRequest?.dishCountry}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+            <button type="submit" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md transition duration-200">Compare</button>
+        </form>
+        <div th:if="${result}" class="mt-8">
+            <button type="button" onclick="document.getElementById('resultBox').classList.toggle('hidden')" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-md transition duration-200 mb-2">Show Result</button>
+            <div id="resultBox" class="hidden fixed inset-0 flex items-center justify-center z-50">
+                <div class="absolute inset-0 bg-black bg-opacity-30 backdrop-blur-sm"></div>
+                <div class="relative bg-blue-50 border-l-4 border-blue-400 p-6 rounded-xl shadow-2xl w-full max-w-lg mx-4">
+                    <h2 class="text-xl font-semibold text-blue-700 mb-2">Comparison Result:</h2>
+                    <p th:text="${result}" class="text-gray-700"></p>
+                    <button type="button" onclick="document.getElementById('resultBox').classList.add('hidden')" class="absolute top-2 right-2 text-gray-400 hover:text-gray-700 text-2xl font-bold">&times;</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
